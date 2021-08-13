@@ -1,5 +1,6 @@
 import sqlite3
 import requests
+
 dicionario = {
     "atividade_principal": [
         {
@@ -69,10 +70,6 @@ dicionario = {
         {
             "text": "Outras atividades de serviços prestados principalmente às empresas não especificadas anteriormente",
             "code": "82.99-7-99"
-        },
-        {
-            "text": "Outraserviços prestados principalmente às empresas não especificadas anteriormente",
-            "code": "82.99-814-99"
         }
     ],
     "qsa": [
@@ -104,7 +101,7 @@ dicionario = {
     "porte": "DEMAIS",
     "abertura": "02/05/2013",
     "natureza_juridica": "206-2 - Sociedade Empresária Limitada",
-    "cnpj": "0008.asd023.552/0001-61",
+    "cnpj": "18.033.552/0001-61",
     "ultima_atualizacao": "2021-07-22T17:43:05.986Z",
     "status": "OK",
     "fantasia": "",
@@ -123,35 +120,40 @@ dicionario = {
     }
 }
 
+
+#funcionando
+def pegarColunasTabela(nomeTabela):
+    try:
+        connection = sqlite3.connect("teste.db")
+        sql = F"SELECT * FROM {nomeTabela}"
+        cursor = connection.execute(sql)
+        colunas = list(map(lambda x: x[0], cursor.description))
+        cursor.close()
+        connection.close()
+        return colunas
+    except sqlite3.Error as error:
+        print(error)
+
 def makeRequest(cnpj):
     req = requests.get(f"https://www.receitaws.com.br/v1/cnpj/{cnpj}").json()
 
-    if req["status"] == "error":
+    if req.status_code == 504:
+        print()
+        return 0
+
+    if req["status"] == "ERROR":
         print(req["status"])
+        print(req["message"])
+        return 0
 
     if req.status_code == 200 and req["status"] == "OK":
-        print("works")
+        print("Requisição feita!")
+        print(type(req))
+        return req
 
-# funcionando
-def addNewEmpresa():
-    try:
-        cnpj = '012345asd6'
-        nome = 'lucaasds'
-        uf = 'pa'
-        email = 'lucasasdemail.com'
-        data = 'now'
-
-        connection = sqlite3.connect('teste.db')
-        cursor = connection.cursor()
-        sql = f"INSERT INTO empresa VALUES ('{cnpj}',' {nome}', '{uf}', '{email}', '{data}')"
-        print(sql)
-        cursor.execute(sql)
-        connection.commit()
-        print("Nova empresa Cadastrada")
-    except sqlite3.Error as error:
-        print("Deu erro! ", error)
-    finally:
-        connection.close()
+    if req.status_code != 200:
+        print("somenthing went wrong, status:", req.status_code)
+        return 0
 
 # funcionando
 def listarEmpresas():
@@ -178,49 +180,35 @@ def pesquisarUmaEmpresa(cnpj):
         print("error: ", error)
 
 #funcionando
-def inserirEmpresaNoBanco(lista):
+def cadastrarEmpresa(cnpj):
+    data = makeRequest(cnpj)
+
+    if data == 0:
+        print("Não foi possivel cadastrar a empresa. Tente mais tarde")
+        return 0
+
+    colunas = pegarColunasTabela("empresa")
+    empresaData = []
     try:
+        for x in colunas:
+            empresaData.append(data.get(x))
+
         connection = sqlite3.connect("teste.db")
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO empresa VALUES (?, ?, ?, ?, ?)", lista)
+        cursor.execute("INSERT INTO empresa VALUES (?, ?, ?, ?, ?)", empresaData)
         connection.commit()
         print("Empresa cadastrada")
-        cursor.close()
         connection.close()
     except sqlite3.Error as error:
         print(error)
 
-#funcionando
-def pegarColunasTabela(nomeTabela):
-    try:
-        connection = sqlite3.connect("teste.db")
-        sql = F"SELECT * FROM {nomeTabela}"
-        cursor = connection.execute(sql)
-        colunas = list(map(lambda x: x[0], cursor.description))
-        cursor.close()
-        connection.close()
-        return colunas
-    except sqlite3.Error as error:
-        print(error)
+    atividadePrincipal = data["atividade_principal"]
+    atividadeSecundaria = data["atividades_secundarias"]
+    cadastrarServicosDaEmpresa(atividadePrincipal, atividadeSecundaria)
+
 
 #funcionando
-def novaEmpresa():
-    colunas = pegarColunasTabela("empresa")
-    if colunas:
-        print("Tenho colunas")
-        print(colunas)
-    else:
-        print("Nao tenho colunas")
-
-    empresaData = []
-    for x in colunas:
-        empresaData.append(dicionario.get(x))
-    inserirEmpresaNoBanco(empresaData)
-
-#funcionando
-def insertIntoServicos():
-    a = dicionario["atividade_principal"]
-    b = dicionario["atividades_secundarias"]
+def cadastrarServicosDaEmpresa(a, b):
     c = a + b
 
     connection = sqlite3.connect("teste.db")
