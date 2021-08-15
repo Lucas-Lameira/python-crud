@@ -9,7 +9,7 @@ crud em python com sqlite3 e Request para consumir a api da receitaws
 <p align="center"> 
  <a href="#Tecnologias">Tecnologias</a> • 
  <a href="#Executar o projeto">Executar o projeto</a> • 
- <a href="#New Features">Funcionalidades</a> • 
+ <a href="#Funcionalidades">Funcionalidades</a> • 
  <a href="#Referencias">Referencias</a> • 
  <a href="#Author">Author</a>
 </p>
