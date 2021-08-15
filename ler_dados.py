@@ -20,7 +20,7 @@ def listar_empresas():
 
         print(f"{'=' * 40} Empresas cadastradas {'=' * 40}")
 
-        print(f"CNPJ{' ' * 16}|nome{' ' * 24}|UF  |Email{' ' * 15}|Data de abertura")
+        print(f"CNPJ{' ' * 10}|nome{' ' * 24}|UF  |Email{' ' * 15}|Data de abertura")
         for item in empresas:
             for x in item:
                 print(x, end=" ")

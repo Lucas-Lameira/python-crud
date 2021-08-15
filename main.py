@@ -30,7 +30,6 @@ while isTrue:
         cadastrar_empresa()
 
     elif answer == 2:
-        limpar_tela()
         listar_empresas()
 
     elif answer == 3:
@@ -39,7 +38,6 @@ while isTrue:
             print("....")
         else:
             cnpj = input_cnpj()
-            limpar_tela()
             pesquisar_uma_empresa(cnpj)
 
     elif answer == 4:
@@ -60,7 +58,6 @@ while isTrue:
             listar_servicos_prestados(cnpj)
 
     elif answer == 7:
-
         if listar_empresas() == 0:
             print("....")
         else:
