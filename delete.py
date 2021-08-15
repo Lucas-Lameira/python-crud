@@ -1,13 +1,10 @@
 import sqlite3
-from leituraDados import pesquisar_uma_empresa, listar_empresas
+from ler_dados import verificar_empresa_existe
 
 # deletar uma empresa
 def deletar_empresa(cnpj):
-    if listar_empresas() == 0:
-        return 0
 
-    # verificar se o cnpj esta no banco
-    if pesquisar_uma_empresa(cnpj) == 0:
+    if verificar_empresa_existe(cnpj) == 0:
         return 0
 
     try:

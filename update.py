@@ -1,6 +1,6 @@
 import sqlite3
-from cadastraEmpresa import pegar_colunas_tabela
-from leituraDados import pesquisar_uma_empresa, listar_empresas
+from cadastra_empresa import pegar_colunas_tabela
+from ler_dados import pesquisar_uma_empresa, listar_empresas
 from validacao import menu_input, input_cnpj
 from utils import limpar_tela
 
@@ -31,13 +31,14 @@ def atualizar_empresa(cnpj):
     if resposta == 1:
         novo_valor = input_cnpj()
     else:
-        while novo_valor == '':
-            novo_valor = input("qual o novo valor a ser atualizado: ")
+        while novo_valor == '' or novo_valor == cnpj:
+            novo_valor = input("Qual o novo valor a ser atualizado: ")
 
     campo = colunas[resposta - 1]
 
     # vulnerable to sql injection and only works for string values
     sql = f"UPDATE empresa SET {campo} = '{novo_valor}' WHERE cnpj = '{cnpj}'"
+
 
     try:
         connection = sqlite3.connect("banco_dados.db")

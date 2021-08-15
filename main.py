@@ -1,15 +1,15 @@
 from criar_banco import conexao
 from utils import menu, limpar_tela
-from cadastraEmpresa import cadastrar_empresa
+from cadastra_empresa import cadastrar_empresa
 
-from leituraDados import \
+from ler_dados import \
     exibir_servicos_empresa, \
     pesquisar_uma_empresa, \
     listar_empresas, \
     listar_servicos_prestados, \
     isAlgumDado
 from validacao import input_cnpj, menu_input
-from cadastraNovoServicoPrestado import cadastrar_serivico_prestado
+from novo_servico_prestado import cadastrar_serivico_prestado
 
 from update import atualizar_empresa
 from delete import deletar_empresa

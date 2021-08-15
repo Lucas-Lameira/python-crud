@@ -50,7 +50,7 @@ def cadastrar_servicos(servicos):
         try:
             cursor.execute("INSERT INTO servico VALUES (?, ?)", (item["code"], item["text"]))
         except sqlite3.Error as error:
-            print("Proximo, ", error)
+            print("Este serviço ja foi cadastrado!, Proximo! ", error)
 
     connection.commit()
     connection.close()

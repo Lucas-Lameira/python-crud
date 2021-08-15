@@ -1,5 +1,5 @@
 import sqlite3
-from leituraDados import listar_empresas, \
+from ler_dados import listar_empresas, \
     exibir_servicos_empresa, \
     pegar_servico_empresa, \
     verificar_empresa_existe
