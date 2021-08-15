@@ -34,10 +34,18 @@ crud em python com sqlite3 e Request para consumir a api da receitaws
 </p>
 
 <p>
- ou baixe o projeto clicando em 'code' e 'download.zip. Descompacte com o seu programa de preferência, entre na raiz do diretório:
+ ou baixe o projeto clicando em 'code' e 'download.zip. 
+ <br>
+ Descompacte com o seu programa de preferência, 
+ 
+ ```
+ unzip prova-python-crud-main
+ ```
+ 
+ entre na raiz do diretório:
  
   ```
-  cd ./prova-python-crud
+  cd ./prova-python-crud-main
   ```
 </p>
 
