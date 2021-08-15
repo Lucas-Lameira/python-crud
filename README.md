@@ -3,13 +3,12 @@
 <p align="center">
 crud em python com sqlite3 e Request para consumir a api da receitaws
 </p>
-
-<!-- <img src="https://img.shields.io/static/v1?label=Draven&message=The Best&color=2f7971&style=for-the-badge&logo=ghost"/> -->
  
 <p align="center"> 
  <a href="#Tecnologias">Tecnologias</a> • 
  <a href="#Executar o projeto">Executar o projeto</a> • 
  <a href="#Funcionalidades">Funcionalidades</a> • 
+ <a href="#DER">DER</a> • 
  <a href="#Referencias">Referencias</a> • 
  <a href="#Author">Author</a>
 </p>
@@ -63,11 +62,11 @@ crud em python com sqlite3 e Request para consumir a api da receitaws
   ```
 </p>
 
-<!--
+## DER
 <h1 align="center">
-  <img alt="project image" title="#project" src="./screenshots/img1.png" />
+  <img alt="project image" title="#project" src="./screenshots/prova python der.jpg" />
 </h1>
--->
+
 
 ## Funcionalidades
 - [x] Cadastrar empresa digitando o cnpj
