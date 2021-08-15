@@ -85,8 +85,10 @@ def exibir_servicos_empresa(cnpj):
                         JOIN servico
                         ON servico.codigo = lista_servico.codigo
                         WHERE empresa.cnpj = ?""", (cnpj,)).fetchall()
-
-
+        print(servicos)
+        print(type(servicos))
+        print(cnpj)
+        print(type(cnpj))
         connection.close()
 
         if len(servicos) == 0:

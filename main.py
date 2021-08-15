@@ -47,8 +47,6 @@ while isTrue:
             print("....")
         else:
             cnpj = input_cnpj()
-
-            limpar_tela()
             exibir_servicos_empresa(cnpj)
 
     elif answer == 5:

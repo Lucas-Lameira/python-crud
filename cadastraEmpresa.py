@@ -49,7 +49,6 @@ def cadastrar_servicos(servicos):
     for item in servicos:
         try:
             cursor.execute("INSERT INTO servico VALUES (?, ?)", (item["code"], item["text"]))
-            print("Novo serviço adicionado")
         except sqlite3.Error as error:
             print("Proximo, ", error)
 
@@ -64,7 +63,6 @@ def cadastrar_lista_servicos_da_empresa(cnpj, servicos):
     for item in servicos:
         try:
             cursor.execute("INSERT INTO lista_servico VALUES (?, ?)", (item["code"], cnpj))
-            print("Novo serviço adicionado a lista de serviços")
         except sqlite3.Error as error:
             print("error, ", error)
 
@@ -108,10 +106,7 @@ def cadastrar_empresa():
         for x in colunas:
             dados_empresa.append(data.get(x))
 
-        print(dados_empresa)
-        print(dados_empresa[index_cnpj])
         dados_empresa[index_cnpj] = formata_cnpj(dados_empresa[index_cnpj])
-        print(dados_empresa)
 
         connection = sqlite3.connect("banco_dados.db")
         cursor = connection.cursor()
