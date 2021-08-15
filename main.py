@@ -1,65 +1,84 @@
+from criar_banco import conexao
+from utils import menu, limpar_tela
 from cadastraEmpresa import cadastrar_empresa
-import sys #pausar o console
-import requests
-import platform
-import os
 
-""" limpar a tela XD, se sobrar tempo
-sistema_operacional = str(platform.system()) # Windows or Linux  mac xamais
-if sistema_operacional.upper() == "WINDOWS":
-    os.system('cls')
-elif sistema_operacional.upper() == "LINUX":
-    os.system('clear')
-"""
+from leituraDados import \
+    exibir_servicos_empresa, \
+    pesquisar_uma_empresa, \
+    listar_empresas, \
+    listar_servicos_prestados, \
+    isAlgumDado
+from validacao import input_cnpj, menu_input
+from cadastraNovoServicoPrestado import cadastrar_serivico_prestado
 
-def menu():
-    print("============ MENU ==============")
-    print("1 - Cadastrar empresa")
-    print("2 - Exibir empresas cadastradas")
-    print("3 - Buscar uma empresa cadastrada")
-    print("4 - Atualizar dados de uma empresa cadastrada")
-    print("5 - Deletar uma empresa")
-    print("6 - Sair")
-    print("===============================")
+from update import atualizar_empresa
+from delete import deletar_empresa
+
+if conexao() == 0:
+    raise Exception("DEU RUIM")
+
 
 isTrue = True
 while isTrue:
-    answer = None
 
     # print menu list
     menu()
+    answer = menu_input(1, 9)
 
-    # validate user input
-    try:
-         answer = int(input("Selecione uma opção: "))
-         if answer < 1 or answer > 6:
-             raise Exception("Digite um número válido correspondente as opções do menu")
-    except:
-        print("DIgite um número válido correspondente as opções do menu")
-        continue
-
-    # operate based on user input
+    # sodades switch case
     if answer == 1:
-        cnpj = None
-
-        # validate cnpj
-        try:
-            cnpj = input("Digite o cnpj da empresa: ")
-
-            if len(cnpj) != 14:
-                raise Exception("Um CNPJ deve conter 14 digitos numericos")
-
-            # check if there is any non numeric values
-            for x in cnpj:
-                int()
-        except:
-            print("Um CNPJ deve conter 14 digitos numericos")
-            break
-
-        cadastrar_empresa(cnpj)
+        cadastrar_empresa()
 
     elif answer == 2:
-        print("hello")
+        limpar_tela()
+        listar_empresas()
+
+    elif answer == 3:
+        isOk = isAlgumDado()
+        if not isOk:
+            print("....")
+        else:
+            cnpj = input_cnpj()
+            limpar_tela()
+            pesquisar_uma_empresa(cnpj)
+
+    elif answer == 4:
+        if listar_empresas() == 0:
+            print("....")
+        else:
+            cnpj = input_cnpj()
+
+            limpar_tela()
+            exibir_servicos_empresa(cnpj)
+
+    elif answer == 5:
+        cadastrar_serivico_prestado()
+
+    elif answer == 6:
+        if listar_empresas() == 0:
+            print("....")
+        else:
+            cnpj = input_cnpj()
+            listar_servicos_prestados(cnpj)
+
+    elif answer == 7:
+
+        if listar_empresas() == 0:
+            print("....")
+        else:
+            cnpj = input_cnpj()
+            atualizar_empresa(cnpj)
+
+    elif answer == 8:
+        if listar_empresas() == 0:
+            print("....")
+        else:
+            cnpj = input_cnpj()
+            deletar_empresa(cnpj)
+
+    elif answer == 9:
+        print("saindo.....")
+        break
 
     # check if the user wants to continue
     answer = input("Deseja continuar s/n: ")
@@ -70,3 +89,4 @@ while isTrue:
 
     if answer == 'n':
         isTrue = False
+    limpar_tela()

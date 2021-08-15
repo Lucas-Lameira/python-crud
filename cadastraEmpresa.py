@@ -1,10 +1,12 @@
 import requests
 import sqlite3
+from validacao import input_cnpj
+from utils import formata_cnpj
 
 
-def pegarColunasTabela(nomeTabela):
+def pegar_colunas_tabela(nomeTabela):
     try:
-        connection = sqlite3.connect("teste.db")
+        connection = sqlite3.connect("banco_dados.db")
         sql = F"SELECT * FROM {nomeTabela}"
         cursor = connection.execute(sql)
         colunas = list(map(lambda x: x[0], cursor.description))
@@ -15,13 +17,13 @@ def pegarColunasTabela(nomeTabela):
         print(error)
 
 
-def makeRequest(cnpj):
+def fazer_requisicao(cnpj):
     req = requests.get(f"https://www.receitaws.com.br/v1/cnpj/{cnpj}")
     status_code = req.status_code
     data = req.json()
 
     if status_code == 504:
-        print()
+        print(f"HTTP {status_code} Time out error!")
         return 0
 
     if data["status"] == "ERROR":
@@ -40,8 +42,7 @@ def makeRequest(cnpj):
 
 
 def cadastrar_servicos(servicos):
-    # this should be fine
-    connection = sqlite3.connect("teste.db")
+    connection = sqlite3.connect("banco_dados.db")
     cursor = connection.cursor()
 
     # item is a dictionary
@@ -57,7 +58,7 @@ def cadastrar_servicos(servicos):
 
 
 def cadastrar_lista_servicos_da_empresa(cnpj, servicos):
-    connection = sqlite3.connect("teste.db")
+    connection = sqlite3.connect("banco_dados.db")
     cursor = connection.cursor()
 
     for item in servicos:
@@ -73,7 +74,7 @@ def cadastrar_lista_servicos_da_empresa(cnpj, servicos):
 
 def cadstrar_telefone_empresa(telefone, cnpj):
     try:
-        connection = sqlite3.connect("teste.db")
+        connection = sqlite3.connect("banco_dados.db")
         cursor = connection.cursor()
 
         if "/" in telefone:
@@ -88,22 +89,33 @@ def cadstrar_telefone_empresa(telefone, cnpj):
         print(error)
 
 
-def cadastrar_empresa(cnpj):
-    data = makeRequest(cnpj)
+def cadastrar_empresa():
+    cnpj = input_cnpj()
+    data = fazer_requisicao(cnpj)
 
     if data == 0:
-        print("Não foi possivel cadastrar a empresa. Tente mais tarde")
+        print("Não foi possivel cadastrar a empresa. Tente mais tarde!")
         return 0
 
-    colunas = pegarColunasTabela("empresa")
-    empresaData = []
+    # as colunas da tabela tem os mesmos nomes das chaves do dicionario que veio da requisicao
+    colunas = pegar_colunas_tabela("empresa")
+    index_cnpj = colunas.index("cnpj")
+
+    # lista vazia para armazenar os dados pertinentes da requisição
+    dados_empresa = []
+
     try:
         for x in colunas:
-            empresaData.append(data.get(x))
+            dados_empresa.append(data.get(x))
 
-        connection = sqlite3.connect("teste.db")
+        print(dados_empresa)
+        print(dados_empresa[index_cnpj])
+        dados_empresa[index_cnpj] = formata_cnpj(dados_empresa[index_cnpj])
+        print(dados_empresa)
+
+        connection = sqlite3.connect("banco_dados.db")
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO empresa VALUES (?, ?, ?, ?, ?)", empresaData)
+        cursor.execute("INSERT INTO empresa VALUES (?, ?, ?, ?, ?)", dados_empresa)
         connection.commit()
         print("Empresa cadastrada")
         connection.close()
@@ -113,5 +125,5 @@ def cadastrar_empresa(cnpj):
 
     lista_servicos = data["atividade_principal"] + data["atividades_secundarias"]
     cadastrar_servicos(lista_servicos)
-    cadastrar_lista_servicos_da_empresa(data["cnpj"], lista_servicos)
-    cadstrar_telefone_empresa(data["telefone"], data["cnpj"])
+    cadastrar_lista_servicos_da_empresa(dados_empresa[index_cnpj], lista_servicos)
+    cadstrar_telefone_empresa(data["telefone"], dados_empresa[index_cnpj])
