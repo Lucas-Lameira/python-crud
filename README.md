@@ -9,8 +9,8 @@ crud em python com sqlite3 e Request para consumir a api da receitaws
 <p align="center"> 
  <a href="#Tecnologias">Tecnologias</a> • 
  <a href="#Executar o projeto">Executar o projeto</a> • 
- <a href="#New Features">New Features</a> • 
- <a href="#References">References</a> • 
+ <a href="#New Features">Funcionalidades</a> • 
+ <a href="#Referencias">Referencias</a> • 
  <a href="#Author">Author</a>
 </p>
 
@@ -72,7 +72,7 @@ crud em python com sqlite3 e Request para consumir a api da receitaws
 - [x] Deletar uma empresa
 
 
-## References
+## Referencias
 https://www.sqlite.org/foreignkeys.html <br>
 https://www.w3schools.com/python/default.asp<br>
 https://www.receitaws.com.br/api<br>
