@@ -69,6 +69,7 @@ crud em python com sqlite3 e Request para consumir a api da receitaws
 
 
 ## Funcionalidades
+- [x] Pesquisar uma empresa na receitaws e exibir os dados pertinentes
 - [x] Cadastrar empresa digitando o cnpj
 - [x] Listar empresas cadastradas
 - [x] Buscar uma empresa cadastrada
@@ -76,6 +77,7 @@ crud em python com sqlite3 e Request para consumir a api da receitaws
 - [x] Cadastrar um novo serviço prestado
 - [x] listar serviços prestados por uma empresa
 - [x] Atualizar dados de uma empresa cadastrada
+- [x] Pesquisar empresa por campo da entidade empresa
 - [x] Deletar uma empresa
 
 
