@@ -11,15 +11,17 @@ def limpar_tela():
 
 def menu():
     print("============ MENU ==============")
-    print("1 - Cadastrar empresa")
-    print("2 - Exibir empresas cadastradas")
-    print("3 - Buscar uma empresa cadastrada")
-    print("4 - Pesquisar os serviços que uma empresa presta")
-    print("5 - Cadastrar um novo serviço prestado")
-    print("6 - listar serviços prestados por uma empresa")
-    print("7 - Atualizar dados de uma empresa cadastrada")
-    print("8 - Deletar uma empresa")
-    print("9 - Sair")
+    print("1 - Pesquisar uma empresa na receitaws ")
+    print("2 - Cadastrar empresa")
+    print("3 - Exibir empresas cadastradas")
+    print("4 - Buscar uma empresa cadastrada")
+    print("5 - Pesquisar os serviços que uma empresa presta")
+    print("6 - Cadastrar um novo serviço prestado")
+    print("7 - listar serviços prestados por uma empresa")
+    print("8 - Atualizar dados de uma empresa cadastrada")
+    print("9 - Deletar uma empresa")
+    print("10 - Pesquisar empresa por campo")
+    print("11 - Sair")
     print("===============================")
 
 
@@ -27,3 +29,5 @@ def formata_cnpj(cnpj):
     # remover pontos barra traco
     novo_cpnj = sub(r'[. \- /]', "", cnpj)
     return novo_cpnj
+
+# def formata_telefone(cnpj):

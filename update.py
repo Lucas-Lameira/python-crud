@@ -25,8 +25,6 @@ def atualizar_empresa(cnpj):
     print("Digite um número correspondente as opções acima!")
     resposta = menu_input(1, tamanho)
 
-    # talvez exibir o dado a ser atualizado
-    # cnpj deve ser feito uma validação
     novo_valor = ''
     if resposta == 1:
         novo_valor = input_cnpj()
@@ -38,7 +36,6 @@ def atualizar_empresa(cnpj):
 
     # vulnerable to sql injection and only works for string values
     sql = f"UPDATE empresa SET {campo} = '{novo_valor}' WHERE cnpj = '{cnpj}'"
-
 
     try:
         connection = sqlite3.connect("banco_dados.db")

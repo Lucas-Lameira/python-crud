@@ -1,13 +1,6 @@
-from re import sub
-cnpj = "17.895.646/0001-87"
+import sqlite3
+from cadastra_empresa import pegar_colunas_tabela
+from validacao import menu_input, input_cnpj
 
 
-
-if len(cnpj) == 0:
-    print("tem nada aqui nao")
-
-#remover pontos barra tra|co
-
-
-
-print(novo_cpnj)
+pesquisar_por_campo()

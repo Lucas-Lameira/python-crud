@@ -1,6 +1,6 @@
 import sqlite3
-from validacao import input_cnpj
-
+from validacao import input_cnpj, menu_input
+from cadastra_empresa import pegar_colunas_tabela
 
 # ok
 def listar_empresas():
@@ -85,10 +85,6 @@ def exibir_servicos_empresa(cnpj):
                         JOIN servico
                         ON servico.codigo = lista_servico.codigo
                         WHERE empresa.cnpj = ?""", (cnpj,)).fetchall()
-        print(servicos)
-        print(type(servicos))
-        print(cnpj)
-        print(type(cnpj))
         connection.close()
 
         if len(servicos) == 0:
@@ -177,3 +173,53 @@ def isAlgumDado():
     except sqlite3.Error as error:
         print(error)
         return False
+
+
+def pesquisar_por_campo():
+    colunas = pegar_colunas_tabela("empresa")
+    tamanho = len(colunas)
+
+    print(f"{'=' * 10} Escolha um campo para pesquisar {'=' * 10}")
+    for i in range(tamanho):
+        print(f"{i + 1} - {colunas[i]}")
+
+    print("Digite um número correspondente as opções acima!")
+    index = menu_input(1, tamanho)
+
+    valor_pesquisa = ''
+
+    # cnpj
+    if index == 1:
+        valor_pesquisa = input_cnpj()
+    else:
+        while valor_pesquisa == '':
+            valor_pesquisa = input(f"{colunas[index - 1]}: ")
+
+    # caso nome ou uf
+    if index == 2 or index == 3:
+        valor_pesquisa = valor_pesquisa.upper()
+
+    campo = colunas[index - 1]
+
+    # vulnerable to sql injection and only works for string values
+    sql = f"SELECT * FROM empresa WHERE {campo} = '{valor_pesquisa}'"
+
+    try:
+        connection = sqlite3.connect("banco_dados.db")
+        cursor = connection.cursor()
+        dado = cursor.execute(sql).fetchall()
+        connection.close()
+
+        if len(dado) == 0:
+            print("Nenhum dado encontrado")
+            return 0
+        else:
+            print(f"{'=' * 30} Dados {'=' * 30}")
+            print(f"CNPJ{' ' * 14} |nome{' ' * 10} |UF   |Email{' ' * 10} |Data de abertura")
+            for items in dado:
+                for item in items:
+                    print(item, end=' ')
+                print('')
+    except sqlite3.Error as error:
+        print(error)
+        return 0

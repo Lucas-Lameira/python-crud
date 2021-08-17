@@ -87,13 +87,14 @@ def cadstrar_telefone_empresa(telefone, cnpj):
         print(error)
 
 
-def cadastrar_empresa():
-    cnpj = input_cnpj()
-    data = fazer_requisicao(cnpj)
+def cadastrar_empresa(data):
 
     if data == 0:
-        print("Não foi possivel cadastrar a empresa. Tente mais tarde!")
-        return 0
+        cnpj = input_cnpj()
+        data = fazer_requisicao(cnpj)
+        if data == 0:
+            print("Não foi possivel cadastrar a empresa. Tente mais tarde!")
+            return 0
 
     # as colunas da tabela tem os mesmos nomes das chaves do dicionario que veio da requisicao
     colunas = pegar_colunas_tabela("empresa")

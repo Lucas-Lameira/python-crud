@@ -1,3 +1,4 @@
+from exibir_dados_api import exibir_dados_api
 from criar_banco import conexao
 from utils import menu, limpar_tela
 from cadastra_empresa import cadastrar_empresa
@@ -7,7 +8,9 @@ from ler_dados import \
     pesquisar_uma_empresa, \
     listar_empresas, \
     listar_servicos_prestados, \
-    isAlgumDado
+    isAlgumDado, \
+    pesquisar_por_campo
+
 from validacao import input_cnpj, menu_input
 from novo_servico_prestado import cadastrar_serivico_prestado
 
@@ -23,16 +26,19 @@ while isTrue:
 
     # print menu list
     menu()
-    answer = menu_input(1, 9)
+    answer = menu_input(1, 11)
 
-    # sodades switch case
+    # no switch case
     if answer == 1:
-        cadastrar_empresa()
+        exibir_dados_api()
 
-    elif answer == 2:
-        listar_empresas()
+    if answer == 2:
+        cadastrar_empresa(0)
 
     elif answer == 3:
+        listar_empresas()
+
+    elif answer == 4:
         isOk = isAlgumDado()
         if not isOk:
             print("....")
@@ -40,38 +46,42 @@ while isTrue:
             cnpj = input_cnpj()
             pesquisar_uma_empresa(cnpj)
 
-    elif answer == 4:
+    elif answer == 5:
         if listar_empresas() == 0:
             print("....")
         else:
             cnpj = input_cnpj()
             exibir_servicos_empresa(cnpj)
 
-    elif answer == 5:
-        cadastrar_serivico_prestado()
-
     elif answer == 6:
-        if listar_empresas() == 0:
-            print("....")
-        else:
-            cnpj = input_cnpj()
-            listar_servicos_prestados(cnpj)
+        cadastrar_serivico_prestado()
 
     elif answer == 7:
         if listar_empresas() == 0:
             print("....")
         else:
             cnpj = input_cnpj()
-            atualizar_empresa(cnpj)
+            listar_servicos_prestados(cnpj)
 
     elif answer == 8:
         if listar_empresas() == 0:
             print("....")
         else:
             cnpj = input_cnpj()
-            deletar_empresa(cnpj)
+            atualizar_empresa(cnpj)
 
     elif answer == 9:
+        if listar_empresas() == 0:
+            print("....")
+        else:
+            cnpj = input_cnpj()
+            deletar_empresa(cnpj)
+
+    elif answer == 10:
+        pesquisar_por_campo()
+
+
+    elif answer == 11:
         print("saindo.....")
         break
 
